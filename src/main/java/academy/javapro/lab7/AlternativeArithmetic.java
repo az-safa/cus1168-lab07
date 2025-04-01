@@ -1,4 +1,4 @@
-package academy.javapro.lab7;
+package lab07;
 
 public class AlternativeArithmetic {
     /**
@@ -10,15 +10,22 @@ public class AlternativeArithmetic {
      */
     public static int addWithoutPlus(int a, int b) {
         // Base case: if one of the numbers is 0, return the other
-        // TODO: return a if b is 0
-        // TODO: return b if a is 0
+        // return a if b is 0
+    	if (b == 0) return a;
+    	// return b if a is 0
+        if (a == 0) return b;
 
-        // TODO:Create a while loop that runs until b is 0. This loop will calculate the sum of a and b
-            // TODO: create a variable carry and assign it the result of the bitwise AND operation between a and b
-            // TODO: assign the result of the bitwise XOR operation between a and b to a
-            // TODO: assign the result of the left shift operation on carry by 1 to b
-        // TODO return a because it contains the sum of a and b
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Create a while loop that runs until b is 0. This loop will calculate the sum of a and b
+        while (b != 0) {
+        	//create a variable carry and assign it the result of the bitwise AND operation between a and b
+            int carry = a & b;  
+            //assign the result of the bitwise XOR operation between a and b to a
+            a = a ^ b;       
+            //assign the result of the left shift operation on carry by 1 to b
+            b = carry << 1;     
+        }
+        //return a because it contains the sum of a and b
+        return a;
     }
 
     /**
@@ -29,29 +36,47 @@ public class AlternativeArithmetic {
      */
     public static int divideWithoutDivideOperator(int dividend, int divisor) {
         // Handle edge cases
-        // TODO: throw an ArithmeticException if divisor is 0
+    	// TODO: throw an ArithmeticException if divisor is 0
+        if (divisor == 0) {
+            throw new ArithmeticException("Division by zero is not allowed.");
+        }
         // TODO: return 0 if dividend is 0
+        if (dividend == 0) return 0;
         // TODO: return dividend if divisor is 1
+        if (divisor == 1) return dividend;
 
-        // TODO: create a boolean variable isNegative and assign it the result of the XOR operation between dividend and divisor
+        // create a boolean variable isNegative and assign it the result of the XOR operation between dividend and divisor
+        boolean isNegative = (dividend < 0) ^ (divisor < 0);
 
-        // Convert to positive for the algorithm
+        // Convert to positive values for calculation
         // TODO: create a long variable absDividend and assign it the absolute value of dividend
+        long absDividend = Math.abs((long) dividend);
         // TODO: create a long variable absDivisor and assign it the absolute value of divisor
+        long absDivisor = Math.abs((long) divisor);
 
-        // Use a binary approach for division
+        // Use bitwise shifting for optimized division
         // TODO: create an int variable result and assign it 0
+        int result = 0;
         // TODO: while absDividend is greater than or equal to absDivisor
-            // TODO: create a long variable temp and assign it the value of absDivisor
-            // TODO: create a long variable multiple and assign it 1
+        while (absDividend >= absDivisor) {
+        	// TODO: create a long variable temp and assign it the value of absDivisor
+        	// TODO: create a long variable multiple and assign it 1
+            long temp = absDivisor, multiple = 1;
             // TODO: while absDividend is greater than or equal to temp shifted left by 1
+            while (absDividend >= (temp << 1)) {
                 // TODO: shift temp left by 1
+                temp <<= 1;
                 // TODO: shift multiple left by 1
+                multiple <<= 1;
+            }
             // TODO: subtract temp from absDividend
+            absDividend -= temp;
             // TODO: add multiple to result using the += operator
+            result += multiple;
+        }
 
         // TODO: return the result if isNegative is false
-        throw new UnsupportedOperationException("Not implemented yet");
+        return isNegative ? -result : result;
     }
 
     /**
